@@ -3,6 +3,7 @@
 A garage management REST API built with ASP.NET Core Web API (.NET 10).
 
 ## Tech Stack
+
 - ASP.NET Core Web API (.NET 10)
 - Entity Framework Core
 - SQL Server
@@ -11,7 +12,9 @@ A garage management REST API built with ASP.NET Core Web API (.NET 10).
 - Serilog Logging
 
 ## Prerequisites
+
 Make sure you have these installed:
+
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (free)
 - [SQL Server Management Studio - SSMS](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms) (optional but recommended)
@@ -19,27 +22,30 @@ Make sure you have these installed:
 ## Getting Started
 
 ### Step 1: Clone the repo
+
 git clone https://github.com/srinivasulu956/auto-garage-backend.git
 
 ### Step 2: Create appsettings.Development.json
+
 Inside the `Auto-Garage` folder, create a file called
 `appsettings.Development.json` and paste the content
 shared by the project owner privately.
 
 It should look like this:
 {
-  "ConnectionStrings": {
-    "AutoGarageDbConnection": "Server=.;Database=AutoGarage;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;",
-    "AutoGarageAuthDbConnection": "Server=.;Database=AutoGarageAuth;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;"
-  },
-  "Jwt": {
-    "Key": "GET THIS FROM PROJECT OWNER",
-    "Issuer": "http://localhost:7224/",
-    "Audience": "http://localhost:7224/"
-  }
+"ConnectionStrings": {
+"AutoGarageDbConnection": "Server=.;Database=AutoGarage;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;",
+"AutoGarageAuthDbConnection": "Server=.;Database=AutoGarageAuth;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;"
+},
+"Jwt": {
+"Key": "GET THIS FROM PROJECT OWNER",
+"Issuer": "http://localhost:7224/",
+"Audience": "http://localhost:7224/"
+}
 }
 
 ### Step 3: Run Migrations
+
 Open terminal inside the Auto-Garage folder and run:
 dotnet ef database update
 
@@ -47,22 +53,39 @@ This will automatically create the databases and
 all tables on your local SQL Server.
 
 ### Step 4: Run the project
+
 dotnet run
 
 API runs at: https://localhost:7224
 Swagger UI: https://localhost:7224/swagger
 
 ## Project Roles
-| Role     | Access                              |
-|----------|-------------------------------------|
-| Admin    | Manage users, bookings, mechanics   |
-| Customer | Book services, manage vehicles      |
-| Mechanic | View and update assigned jobs       |
+
+| Role     | Access                            |
+| -------- | --------------------------------- |
+| Admin    | Manage users, bookings, mechanics |
+| Customer | Book services, manage vehicles    |
+| Mechanic | View and update assigned jobs     |
 
 ## Branching Strategy
+
 - `main` — stable production code
 - `develop` — active development branch
 - `feature/*` — individual feature branches
 
 Always raise a PR to `develop`. Never push directly to
 `main` or `develop`.
+
+## Setup - Default Admin
+
+After running migrations, execute the seed script:
+
+1. Open SSMS
+2. Connect to your SQL Server
+3. Open `seed-admin.sql`
+4. Click Execute
+
+Default credentials:
+
+- Email: admin@gmail.com
+- Password: Admin956956@ag

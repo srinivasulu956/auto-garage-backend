@@ -8,7 +8,12 @@ namespace Auto_Garage.Migrations.AutoGarageDb
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Column already added manually via ALTER TABLE
+            migrationBuilder.AddColumn<decimal>(
+                name: "BookedBasePrice",
+                table: "ServiceBookings",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
