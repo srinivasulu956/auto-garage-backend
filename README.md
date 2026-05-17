@@ -89,3 +89,103 @@ Default credentials:
 
 - Email: admin@gmail.com
 - Password: Admin956956@ag
+
+# Setting Default admin login to access the application by logging
+
+-- ================================================================
+-- AutoGarage - Default Admin Seed Script
+-- Run this on AutoGarageAuth database after running migrations
+-- ================================================================
+-- Default Admin Credentials:
+-- Email : admin@gmail.com
+-- Password: Admin956956@ag
+-- ================================================================
+
+USE AutoGarageAuth;
+
+-- Step 1: Insert Roles (skip if already exists)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] = 'Admin')
+BEGIN
+INSERT INTO [dbo].[AspNetRoles] (Id, Name, NormalizedName, ConcurrencyStamp)
+VALUES (
+'d6a029f6-f39e-434c-a72b-171ef7d2560d',
+'Admin',
+'ADMIN',
+NEWID()
+)
+END
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] = 'Customer')
+BEGIN
+INSERT INTO [dbo].[AspNetRoles] (Id, Name, NormalizedName, ConcurrencyStamp)
+VALUES (
+'c07538fb-40fc-4ba7-ade6-1e4450f78129',
+'Customer',
+'CUSTOMER',
+NEWID()
+)
+END
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] = 'Mechanic')
+BEGIN
+INSERT INTO [dbo].[AspNetRoles] (Id, Name, NormalizedName, ConcurrencyStamp)
+VALUES (
+'09cd9546-8864-49f4-8771-51385d68edba',
+'Mechanic',
+'MECHANIC',
+NEWID()
+)
+END
+
+-- Step 2: Insert Default Admin User (skip if already exists)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetUsers] WHERE [Email] = 'admin@gmail.com')
+BEGIN
+DECLARE @UserId NVARCHAR(450) = NEWID()
+
+    INSERT INTO [dbo].[AspNetUsers] (
+        [Id], [FirstName], [LastName], [IsActive], [IsDeleted],
+        [CreatedAt], [ModifiedAt], [UserName], [NormalizedUserName],
+        [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash],
+        [SecurityStamp], [ConcurrencyStamp], [PhoneNumber],
+        [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd],
+        [LockoutEnabled], [AccessFailedCount], [ThemePreference]
+    )
+    VALUES (
+        @UserId,
+        'Default',
+        'Admin',
+        1,
+        0,
+        GETUTCDATE(),
+        GETUTCDATE(),
+        'admin@gmail.com',
+        'ADMIN@GMAIL.COM',
+        'admin@gmail.com',
+        'ADMIN@GMAIL.COM',
+        1,
+        'AQAAAAIAAYagAAAAECro16mHMvRLigl5CaW6EyUcG9FiXUEccRLqC0X1PT5QeAWAwP1MLebnNK24tREg3g==',
+        'ZEEUSL2M7F2R3YK32ZLST26H4EJ6OTZ7',
+        NEWID(),
+        NULL,
+        0,
+        0,
+        NULL,
+        1,
+        0,
+        'light'
+    )
+
+    -- Step 3: Assign Admin Role to the user
+    INSERT INTO [dbo].[AspNetUserRoles] (UserId, RoleId)
+    VALUES (
+        @UserId,
+        'd6a029f6-f39e-434c-a72b-171ef7d2560d'
+    )
+
+    PRINT 'Default admin user created successfully!'
+
+END
+ELSE
+BEGIN
+PRINT 'Admin user already exists. Skipping.'
+END
