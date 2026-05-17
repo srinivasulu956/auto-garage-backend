@@ -1,14 +1,17 @@
+# Environment specific settings
+appsettings.Development.json
+appsettings.Production.json
+
 # Build outputs
 bin/
 obj/
 
-# Visual Studio
+# Visual Studio files
 .vs/
 *.user
-*.suo
 
 # Logs
 Logs/
 
-# Secret config — NEVER push this
-appsettings.Development.json
+# Docker
+.dockerignore

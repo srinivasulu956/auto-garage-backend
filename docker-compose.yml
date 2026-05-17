@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "AutoGarage@123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+
+  api:
+    build:
+      context: ./Auto-Garage
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__AutoGarageDbConnection=Server=sqlserver,1433;Database=AutoGarage;User=sa;Password=AutoGarage@123;TrustServerCertificate=True
+      - ConnectionStrings__AutoGarageAuthDbConnection=Server=sqlserver,1433;Database=AutoGarageAuth;User=sa;Password=AutoGarage@123;TrustServerCertificate=True
+      - Jwt__Key=q83JkL9GkDfGhJkLzXcL9pQvZAsVbx2Yt6Wm8R4B1cD7eFhNmwErTyUisP0Op1234
+      - Jwt__Issuer=http://localhost:5000/
+      - Jwt__Audience=http://localhost:5000/
+    depends_on:
+      - sqlserver
+
+volumes:
+  sqldata:
